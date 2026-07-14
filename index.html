@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Para mamá</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+
+  <style>
+ 
+
+    :root{
+      --verde:#123b3d;
+      --verde-oscuro:#09292b;
+      --crema:#f8efe6;
+      --papel:#fffaf4;
+      --rosa:#c9837e;
+      --rosa-claro:#ecd3ce;
+      --dorado:#d2a340;
+      --texto:#302522;
+      --gris:#746864;
+      --blanco:#ffffff;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:"Manrope", sans-serif;
+      color:var(--texto);
+      background:var(--crema);
+      overflow-x:hidden;
+    }
+
+    img{
+      display:block;
+      width:100%;
+    }
+
+    h1,h2,h3{
+      font-family:"Cormorant Garamond", serif;
+      font-weight:500;
+    }
+
+    p{
+      line-height:1.85;
+    }
+
+    .progreso{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:4px;
+      z-index:999;
+      background:rgba(255,255,255,.25);
+    }
+
+    .progreso span{
+      display:block;
+      width:0;
+      height:100%;
+      background:var(--dorado);
+    }
+
+    .musica{
+      position:fixed;
+      top:18px;
+      right:18px;
+      z-index:998;
+      border:1px solid var(--dorado);
+      background:rgba(9,41,43,.88);
+      color:white;
+      border-radius:50px;
+      padding:12px 18px;
+      cursor:pointer;
+      backdrop-filter:blur(12px);
+    }
+
+    .seccion{
+      min-height:100vh;
+      position:relative;
+      padding:90px 7%;
+      display:flex;
+      align-items:center;
+      overflow:hidden;
+    }
+
+    .aparece{
+      opacity:0;
+      transform:translateY(35px);
+      transition:1s ease;
+    }
+
+    .aparece.visible{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    .etiqueta{
+      color:var(--dorado);
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      font-size:.75rem;
+      margin-bottom:15px;
+      display:block;
+    }
+
+    .manuscrita{
+      font-family:"Parisienne", cursive;
+      color:var(--rosa);
+      font-size:clamp(3.5rem,7vw,7rem);
+      line-height:.9;
+    }
+
+    .portada{
+      padding:0;
+      color:white;
+      justify-content:flex-end;
+      background:
+        linear-gradient(90deg,rgba(9,41,43,.12),rgba(9,41,43,.95)),
+        url("imagenes/01-infancia.jpg") center/cover no-repeat;
+    }
+
+    .portada-contenido{
+      width:52%;
+      padding:70px 7%;
+      position:relative;
+      z-index:2;
+    }
+
+    .portada h1{
+      color:var(--dorado);
+      font-size:clamp(5rem,10vw,11rem);
+      line-height:.75;
+      margin:15px 0 30px;
+    }
+
+    .portada p{
+      max-width:600px;
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(1.4rem,2.3vw,2.2rem);
+    }
+
+    .boton{
+      display:inline-block;
+      margin-top:35px;
+      padding:16px 25px;
+      border:1px solid var(--dorado);
+      color:white;
+      text-decoration:none;
+      border-radius:50px;
+      background:transparent;
+      cursor:pointer;
+    }
+
+    .carta{
+      background:var(--papel);
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:7vw;
+    }
+
+    .texto-carta{
+      max-width:700px;
+    }
+
+    .texto-carta p{
+      margin-bottom:20px;
+      color:var(--gris);
+      font-size:1.08rem;
+    }
+
+    .frase-destacada{
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(1.8rem,3vw,3rem)!important;
+      color:var(--rosa)!important;
+      font-style:italic;
+    }
+
+    .foto-marco{
+      background:white;
+      padding:14px 14px 35px;
+      box-shadow:0 28px 70px rgba(47,33,27,.17);
+      transform:rotate(-1.5deg);
+    }
+
+    .foto-marco img{
+      height:65vh;
+      object-fit:cover;
+    }
+
+    .foto-marco figcaption{
+      text-align:center;
+      margin-top:18px;
+      font-family:"Cormorant Garamond", serif;
+      font-style:italic;
+      font-size:1.4rem;
+    }
+
+    .oscura{
+      background:var(--verde);
+      color:white;
+      display:grid;
+      grid-template-columns:1fr .75fr;
+      gap:7vw;
+    }
+
+    .oscura h2,
+    .familiar h2,
+    .amigas h2,
+    .mama h2,
+    .futuro h2{
+      font-size:clamp(3.2rem,6vw,6.5rem);
+      line-height:.95;
+      margin-bottom:28px;
+    }
+
+    .oscura p{
+      color:rgba(255,255,255,.75);
+      margin-bottom:18px;
+      font-size:1.08rem;
+    }
+
+    .cita{
+      border-left:2px solid var(--dorado);
+      padding-left:25px;
+      margin-top:35px;
+      font-family:"Cormorant Garamond", serif;
+      font-style:italic;
+      font-size:clamp(1.7rem,2.8vw,2.8rem);
+      color:#f0d58b;
+    }
+
+    .retrato img{
+      height:73vh;
+      object-fit:cover;
+      box-shadow:0 25px 65px rgba(0,0,0,.28);
+    }
+
+    .familiar{
+      background:#ead8ca;
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:7vw;
+    }
+
+    .familiar img{
+      height:73vh;
+      object-fit:cover;
+      box-shadow:0 25px 65px rgba(44,30,24,.18);
+    }
+
+    .familiar p{
+      color:var(--gris);
+      margin-bottom:18px;
+      font-size:1.08rem;
+    }
+
+    .firma{
+      font-family:"Parisienne", cursive!important;
+      color:var(--rosa)!important;
+      font-size:clamp(2.5rem,4vw,4.5rem)!important;
+    }
+
+    .valores{
+      background:var(--papel);
+      display:block;
+      padding-top:110px;
+    }
+
+    .valores-encabezado{
+      max-width:1000px;
+      margin-bottom:55px;
+    }
+
+    .valores-encabezado h2{
+      font-size:clamp(3.2rem,6vw,6.3rem);
+      line-height:.95;
+    }
+
+    .rejilla-valores{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      border-top:1px solid rgba(48,37,34,.15);
+    }
+
+    .valor{
+      padding:28px 22px;
+      border-right:1px solid rgba(48,37,34,.15);
+    }
+
+    .valor:last-child{
+      border-right:none;
+    }
+
+    .valor h3{
+      font-size:2.4rem;
+      margin:15px 0;
+    }
+
+    .valor p{
+      color:var(--gris);
+    }
+
+    .amigas{
+      background:linear-gradient(135deg,#cf8d87,#efd4ce);
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8vw;
+    }
+
+    .frase-amigas{
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(3.8rem,7vw,8rem);
+      color:white;
+      line-height:.9;
+    }
+
+    .amigas p{
+      color:#6e3e3b;
+      margin-bottom:18px;
+      font-size:1.08rem;
+    }
+
+    .recuerdos{
+      display:block;
+      background:#efe1d3;
+      padding-top:110px;
+    }
+
+    .recuerdos h2{
+      max-width:1000px;
+      font-size:clamp(3.2rem,6vw,6.3rem);
+      line-height:.95;
+      margin-bottom:50px;
+    }
+
+    .galeria{
+      display:grid;
+      grid-template-columns:1.2fr .8fr .8fr;
+      gap:20px;
+    }
+
+    .foto-recuerdo{
+      background:white;
+      padding:10px 10px 25px;
+      box-shadow:0 22px 55px rgba(48,33,26,.15);
+    }
+
+    .foto-recuerdo img{
+      height:50vh;
+      object-fit:cover;
+    }
+
+    .foto-recuerdo figcaption{
+      padding:18px 10px 0;
+      text-align:center;
+      font-family:"Cormorant Garamond", serif;
+      font-size:1.25rem;
+      line-height:1.45;
+    }
+
+    .mama{
+      background:#b84e3b;
+      color:white;
+      display:grid;
+      grid-template-columns:.85fr 1.15fr;
+      gap:8vw;
+    }
+
+    .mama img{
+      height:72vh;
+      object-fit:cover;
+      box-shadow:0 25px 65px rgba(69,22,17,.25);
+    }
+
+    .mama p{
+      color:rgba(255,255,255,.82);
+      margin-bottom:18px;
+      font-size:1.08rem;
+    }
+
+    .lograste{
+      background:linear-gradient(135deg,#f1decd,#e4c5b2);
+      justify-content:center;
+    }
+
+    .panel-lograste{
+      max-width:1000px;
+      background:rgba(255,250,244,.82);
+      padding:70px;
+      box-shadow:0 28px 70px rgba(64,41,31,.15);
+      backdrop-filter:blur(14px);
+    }
+
+    .panel-lograste h2{
+      font-size:clamp(6rem,14vw,14rem);
+      line-height:.8;
+      color:var(--dorado);
+      margin:16px 0 50px;
+    }
+
+    .panel-lograste p{
+      color:var(--gris);
+      margin-bottom:18px;
+      font-size:1.08rem;
+    }
+
+    .futuro{
+      color:white;
+      background:
+        linear-gradient(90deg,rgba(9,41,43,.96),rgba(9,41,43,.2)),
+        url("imagenes/05-bote-mama-sofia.jpg") center/cover no-repeat;
+    }
+
+    .futuro-contenido{
+      max-width:760px;
+    }
+
+    .futuro p{
+      color:rgba(255,255,255,.82);
+      margin-bottom:18px;
+      font-size:1.08rem;
+    }
+
+    .cierre{
+      background:var(--papel);
+      justify-content:center;
+    }
+
+    .carta-final{
+      max-width:850px;
+      border-left:1px solid var(--dorado);
+      padding-left:55px;
+    }
+
+    .carta-final p{
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(1.45rem,2.3vw,2.2rem);
+      margin-bottom:22px;
+      line-height:1.65;
+    }
+
+    .amor-final{
+      color:var(--rosa);
+      font-style:italic;
+    }
+
+    .firma-final{
+      font-family:"Parisienne", cursive!important;
+      font-size:clamp(3rem,5vw,5rem)!important;
+    }
+
+    .final{
+      padding:0;
+      color:white;
+      justify-content:center;
+      text-align:center;
+      background:
+        linear-gradient(rgba(9,41,43,.8),rgba(9,41,43,.8)),
+        url("imagenes/01-infancia.jpg") center/cover no-repeat;
+    }
+
+    .final-contenido{
+      padding:30px;
+    }
+
+    .final p{
+      font-family:"Cormorant Garamond", serif;
+      font-size:clamp(2.4rem,4vw,4.8rem);
+    }
+
+    .final h2{
+      color:var(--dorado);
+      font-size:clamp(5rem,12vw,13rem);
+      line-height:.8;
+      margin:10px 0 35px;
+    }
+
+    .final span{
+      text-transform:uppercase;
+      letter-spacing:.18em;
+      font-size:.75rem;
+    }
+
+    @media(max-width:900px){
+      .seccion{
+        min-height:auto;
+        padding:85px 23px;
+      }
+
+      .portada{
+        min-height:100vh;
+        justify-content:flex-end;
+        align-items:flex-end;
+        background:
+          linear-gradient(0deg,rgba(9,41,43,.98),rgba(9,41,43,.12) 65%),
+          url("imagenes/01-infancia.jpg") 35% center/cover no-repeat;
+      }
+
+      .portada-contenido{
+        width:100%;
+        padding:40px 24px 95px;
+      }
+
+      .carta,
+      .oscura,
+      .familiar,
+      .amigas,
+      .mama{
+        grid-template-columns:1fr;
+      }
+
+      .foto-marco img,
+      .retrato img,
+      .familiar img,
+      .mama img{
+        height:auto;
+        max-height:68vh;
+      }
+
+      .rejilla-valores,
+      .galeria{
+        grid-template-columns:1fr;
+      }
+
+      .valor{
+        border-right:none;
+        border-bottom:1px solid rgba(48,37,34,.15);
+      }
+
+      .foto-recuerdo img{
+        height:auto;
+        max-height:62vh;
+      }
+
+      .panel-lograste{
+        padding:42px 25px;
+      }
+
+      .carta-final{
+        padding-left:25px;
+      }
+
+      .musica{
+        width:48px;
+        height:48px;
+        padding:0;
+        font-size:0;
+      }
+
+      .musica::after{
+        content:"♪";
+        font-size:20px;
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      *{
+        scroll-behavior:auto!important;
+        transition:none!important;
+      }
+
+      .aparece{
+        opacity:1;
+        transform:none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="progreso"><span id="barraProgreso"></span></div>
+
+ 
+  <button class="musica" id="botonMusica">♪ Nuestra canción</button>
+  <audio id="cancion" loop>
+    <source src="/musica-mama.mp3" type="audio/mpeg">
+  </audio>
+
+  <section class="seccion portada">
+    <div class="portada-contenido aparece">
+      <span class="etiqueta">14 de julio</span>
+
+      <span class="manuscrita">A través de</span>
+
+      <h1>MIS OJOS</h1>
+
+      <p>
+        Para la persona que siempre ha estado conmigo, que ha creído en mí y que nunca me ha dejado rendirme.
+      </p>
+
+      <a href="#carta" class="boton" id="comenzar">
+        Mamá, esto es para ti ♥
+      </a>
+    </div>
+  </section>
+
+
+  <section class="seccion carta" id="carta">
+
+    <div class="texto-carta aparece">
+      <span class="manuscrita">Mamá...</span>
+
+      <p>
+        No sé si te digo lo suficiente cuánto te amo y lo importante que eres para mí.
+        A veces siento que ya lo sabes, porque eres la persona a la que le cuento casi todo
+        y porque siempre has estado presente. Pero hoy quería dejarlo escrito.
+      </p>
+
+      <p>
+        No quería darte un regalo cualquiera por tu cumpleaños. Quería hacer algo que pudieras
+        volver a abrir cuando quisieras y que te recordara cómo te veo yo.
+        Así que no voy a intentar escribir perfecto. Solo voy a decirte lo que siento, como me salga.
+      </p>
+
+      <p class="frase-destacada">
+        Hoy solo quiero que te veas un momento a través de mis ojos.
+      </p>
+    </div>
+
+    <figure class="foto-marco aparece">
+      <img src="imagenes/02-viaje-selfie.jpg" alt="Sofía y su mamá">
+      <figcaption>
+  
+      </figcaption>
+    </figure>
+
+  </section>
+
+  <section class="seccion oscura">
+
+    <div class="aparece">
+      <span class="etiqueta">01 · LA MUJER QUE MÁS ADMIRO</span>
+
+      <h2>
+        Gran parte de la fuerza que tengo la aprendí viéndote a ti.
+      </h2>
+
+      <p>
+        Si alguien me preguntara quién es la mujer que más admiro, siempre diría que tú.
+        No tendría que pensarlo ni un segundo.
+      </p>
+
+      <p>
+        Te admiro porque sé que has pasado por muchísimas cosas y, aun así, siempre encontraste
+        la forma de salir adelante y de sacarnos adelante a mi hermano y a mí.
+        Ahora que he crecido entiendo mucho mejor todo lo que hiciste por nosotros.
+      </p>
+
+      <div class="cita">
+        Nunca tuviste que explicarme cómo ser fuerte.
+        Me lo enseñaste con tu forma de vivir y de seguir adelante.
+      </div>
+    </div>
+
+    <div class="retrato aparece">
+      <img src="imagenes/08-mama-retrato.jpg" alt="Retrato de mamá">
+    </div>
+
+  </section>
+
+  <section class="seccion familiar">
+
+    <div class="aparece">
+      <img src="imagenes/03-familia-escaleras.jpg" alt="Mamá con sus hijos">
+    </div>
+
+    <div class="aparece">
+      <span class="etiqueta">02 · MI LUGAR SEGURO</span>
+
+      <h2>
+        Nunca tengo que pensar dos veces a quién llamar cuando necesito algo.
+      </h2>
+
+      <p>
+        Porque siempre terminas siendo tú. Cuando necesito un consejo, cuando tengo una buena noticia,
+        cuando algo me preocupa o cuando simplemente necesito que alguien me recuerde que sí puedo.
+      </p>
+
+      <p>
+        Para mí, sentirme en casa no tiene que ver con un lugar.
+        Tiene que ver con saber que puedo llegar a ti, hablarte y sentir que no estoy sola.
+      </p>
+
+      <p class="firma">
+        Para mí, hogar siempre has sido tú.
+      </p>
+    </div>
+
+  </section>
+
+  <section class="seccion valores">
+
+    <div class="valores-encabezado aparece">
+      <span class="etiqueta">03 · TODO LO QUE VIVE EN MÍ</span>
+
+      <h2>
+        Muchas de las cosas buenas que hay en mí las aprendí de ti.
+      </h2>
+    </div>
+
+    <div class="rejilla-valores">
+
+      <article class="valor aparece">
+        <span>01</span>
+        <h3>Fortaleza</h3>
+        <p>
+          La aprendí viéndote seguir adelante incluso en los momentos más difíciles.
+        </p>
+      </article>
+
+      <article class="valor aparece">
+        <span>02</span>
+        <h3>Resiliencia</h3>
+        <p>
+          La aprendí de todas las veces que volviste a empezar sin dejarte vencer.
+        </p>
+      </article>
+
+      <article class="valor aparece">
+        <span>03</span>
+        <h3>Inteligencia</h3>
+        <p>
+          La veo en tus consejos, en la forma en que piensas y en cómo siempre terminas encontrando una solución.
+        </p>
+      </article>
+
+      <article class="valor aparece">
+        <span>04</span>
+        <h3>Amor</h3>
+        <p>
+          Lo conocí desde el primer día porque siempre me has hecho sentir querida y apoyada.
+        </p>
+      </article>
+
+    </div>
+
+  </section>
+
+  <section class="seccion amigas">
+
+    <div class="frase-amigas aparece">
+      “Ojalá tuviera una mamá como la tuya.”
+    </div>
+
+    <div class="aparece">
+      <h2>
+        Y la verdad es que tienen toda la razón.
+      </h2>
+
+      <p>
+        Mis amigas siempre me dicen que les gustaría tener una mamá como la mía,
+        por cómo eres, por los consejos que les das y por la forma en que siempre me apoyas.
+      </p>
+
+      <p>
+        Y cada vez que me lo dicen siento muchísimo orgullo,
+        porque me doy cuenta de que no solo yo veo lo increíble que eres.
+      </p>
+
+      <p class="frase-destacada">
+        Ellas tienen razón: tener una mamá como tú es una suerte enorme.
+        Y yo tengo el privilegio de poder decir que eres la mía.
+      </p>
+    </div>
+
+  </section>
+
+ 
+  <section class="seccion recuerdos">
+
+    <span class="etiqueta aparece">04 · NUESTROS MOMENTOS</span>
+
+    <h2 class="aparece">
+      Muchos de mis recuerdos favoritos son contigo.
+    </h2>
+
+    <div class="galeria">
+
+      <figure class="foto-recuerdo aparece">
+        <img src="imagenes/04-bote-familia.jpg" alt="Familia en un paseo">
+        <figcaption>
+    
+        </figcaption>
+      </figure>
+
+      <figure class="foto-recuerdo aparece">
+        <img src="imagenes/05-bote-mama-sofia.jpg" alt="Mamá y Sofía">
+        <figcaption>
+       
+        </figcaption>
+      </figure>
+
+      <figure class="foto-recuerdo aparece">
+        <img src="imagenes/06-cena-familia.jpg" alt="Cena familiar">
+        <figcaption>
+         
+        </figcaption>
+      </figure>
+
+    </div>
+
+  </section>
+
+
+  <section class="seccion mama">
+
+    <div class="aparece">
+      <img src="imagenes/07-mama-gato.jpg" alt="Mamá">
+    </div>
+
+    <div class="aparece">
+      <span class="manuscrita">Mamá</span>
+
+      <h2>
+        Con los años aprendí a verte también como la mujer que eres.
+      </h2>
+
+      <p>
+        Una mujer fuerte, inteligente, divertida y con ganas de disfrutar la vida.
+        Me encanta que compartamos tantos gustos: viajar, ver películas, empezar una serie
+        y convertir cualquier plan sencillo en un buen momento.
+        Además de ser mi mamá, eres una de mis mejores compañías.
+      </p>
+
+      <p class="frase-destacada" style="color:#ffe39d!important;">
+        Y entre más crezco, más entiendo la suerte que tengo de tenerte.
+      </p>
+    </div>
+
+  </section>
+
+  <section class="seccion lograste">
+
+    <div class="panel-lograste aparece">
+      <span class="etiqueta">05 · HAY ALGO QUE NECESITAS SABER</span>
+
+      <h2>Lo lograste.</h2>
+
+      <p>
+        Puede que muchas veces te hayas preguntado si estabas haciendo las cosas bien.
+        Yo quiero que sepas que sí. Todo lo que hiciste por nosotros valió la pena.
+        Muchas de las razones por las que hoy sigo luchando por mis sueños vienen de ti.
+      </p>
+
+      <p>
+        Sacaste adelante a tus hijos, nos enseñaste a no rendirnos
+        y nos diste la tranquilidad de saber que siempre podíamos contar contigo.
+      </p>
+
+      <p class="frase-destacada">
+        Así que sí, mamá: lo lograste. Todo tu amor está aquí, en nosotros.
+      </p>
+    </div>
+
+  </section>
+
+
+  <section class="seccion futuro">
+
+    <div class="futuro-contenido aparece">
+      <span class="etiqueta">06 · TODAVÍA NOS QUEDA MUCHO</span>
+
+      <h2>
+        Muchas películas. Muchos viajes. Muchas conversaciones.
+      </h2>
+
+      <p>
+        No quiero que esta página se quede solo en recuerdos.
+        Todavía quiero seguir viviendo muchas cosas contigo, seguir pidiéndote consejos
+        y seguir compartiendo esos planes que tanto nos gustan.
+      </p>
+
+      <p>
+        Todavía nos faltan muchas películas por ver, muchos viajes por hacer,
+        muchas conversaciones y muchos cumpleaños por celebrar juntas.
+      </p>
+    </div>
+
+  </section>
+
+  <section class="seccion cierre">
+
+    <article class="carta-final aparece">
+      <span class="manuscrita">Mamá...</span>
+
+      <p>
+        No sé cómo agradecerte una vida entera de amor, de apoyo y de estar presente para mí.
+      </p>
+
+      <p>
+        Gracias por apoyarme en cada proyecto, por escucharme, por aconsejarme
+        y por no dejarme rendir cuando las cosas se ponen difíciles.
+      </p>
+
+      <p>
+        Quiero que hoy recuerdes cómo te veo yo:
+        como una mujer fuerte, inteligente, resiliente y como la persona que más ha influido en mi vida.
+      </p>
+
+      <p>
+        Mis amigas tienen razón cuando dicen que quisieran tener una mamá como la mía.
+        Yo sé la suerte que tengo y no quiero darla por sentado.
+        Aunque no siempre sea la mejor diciendo estas cosas, quiero que nunca dudes de cuánto te amo.
+      </p>
+
+      <p class="amor-final">
+        Feliz cumpleaños, mamá. Te amo muchísimo y espero poder seguir compartiendo la vida contigo por muchos años más.
+      </p>
+
+      <p class="firma-final">
+        Tu hija, Sofía ♥
+      </p>
+    </article>
+
+  </section>
+
+  <section class="seccion final">
+
+    <div class="final-contenido aparece">
+      <p>Muchas de las cosas buenas que hay en mí...</p>
+
+      <h2>las aprendí de ti.</h2>
+
+      <span>Feliz cumpleaños, mamá · 14 de julio</span>
+    </div>
+
+  </section>
+
+  <script>
+
+
+    const elementos = document.querySelectorAll(".aparece");
+
+    const observador = new IntersectionObserver((entradas) => {
+      entradas.forEach((entrada) => {
+        if(entrada.isIntersecting){
+          entrada.target.classList.add("visible");
+        }
+      });
+    }, { threshold: 0.15 });
+
+    elementos.forEach((elemento) => observador.observe(elemento));
+
+    window.addEventListener("scroll", () => {
+      const altoTotal = document.documentElement.scrollHeight - window.innerHeight;
+      const porcentaje = altoTotal > 0 ? (window.scrollY / altoTotal) * 100 : 0;
+      document.getElementById("barraProgreso").style.width = porcentaje + "%";
+    });
+
+    const botonMusica = document.getElementById("botonMusica");
+    const cancion = document.getElementById("cancion");
+    const comenzar = document.getElementById("comenzar");
+
+    async function cambiarMusica(){
+      try{
+        if(cancion.paused){
+          await cancion.play();
+          botonMusica.textContent = "❚❚ Pausar canción";
+        }else{
+          cancion.pause();
+          botonMusica.textContent = "♪ Nuestra canción";
+        }
+      }catch(error){
+        alert("Para activar la música, agrega el archivo musica-mama.mp3 junto al index.html.");
+      }
+    }
+
+    botonMusica.addEventListener("click", cambiarMusica);
+
+    comenzar.addEventListener("click", () => {
+      if(cancion.paused){
+        cambiarMusica();
+      }
+    });
+  </script>
+
+</body>
+</html>
